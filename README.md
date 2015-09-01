@@ -5,28 +5,23 @@ This package implements a form of fallback for requirejs that can be used in req
 It is nice to have an easy way to implement fallback in require() calls or for plugin-capable assets (i.e. css elements using guybedford/require-css or json from millermedeiros/requirejs-plugins). This plugin allows for fallback for other plugin assets. 
 
 You can utilize require-fallback either in a require call (good for implementing fallback for non-defined resources):
-
-<code>require(["flbk!cdn/resource!!fallback/resource"],function(mod){
-
+<code>
+require(["flbk!cdn/resource!!fallback/resource"],function(mod){
   ...do stuff here...
-  
-});</code>
+});
+</code>
 
 or by adding to the requirejs.config (good for loading non-js resources with fallback):
 
-<code>requirejs.config({
-
+<code>
+requirejs.config({
   map:{
-  
     "*":{
-    
       "mycsspkg": "flbk!css!https://cdn.com/a.css!!css!local/a.css"
-      
     }
-    
   }
-  
-});</code>
+});
+</code>
 
 <h2>Install</h2>
 
@@ -39,11 +34,11 @@ Then separate any valid require.js request with "!!". require-fallback will star
 
 Here's a basic example:
 
-<code>require["flbk!https://cdn.com/asset!!local/asset"],function(pkg){
-
+<code>
+require["flbk!https://cdn.com/asset!!local/asset"],function(pkg){
   ...do stuff with pkg...
-  
-})</code>
+})
+</code>
 
 which will attempt to load asset from a cdn and fallback to a local resource.
 
