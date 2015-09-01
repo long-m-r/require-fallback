@@ -30,12 +30,22 @@ Add <code>flbk:"require-fallback/flbk"</code> to your requirejs.config paths (ht
 <h2>API</h2>
 To utilize, start your request with "flbk!" like any other require.js plugin.
 
-Then separate any valid require.js request with "!!". require-fallback will start at the first entry and continue to the right. If all fail, it will throw an error through Require.js, so the error callback will work.
+Then separate any valid require.js request with "!!". require-fallback will start at the first entry and continue to the right. If all fail, it will throw an error through Require.js, so the error callback will work. 
+
+Here's a basic example:
+
+<code>
+require["flbk!https://cdn.com/asset!!local/asset"],function(pkg){
+  ...do stuff with pkg...
+})
+</code>
+
+which will attempt to load asset from a cdn and fallback to a local resource.
 
 Require-fallback also supports loading multiple resources, separated by "!&!". For example, the following two commands behave identically:
 
 <code>require(["asset1","asset2"],function(a1,a2){})</code>
-and
+ and 
 <code>require(["flbk!asset1!&!asset2"],function(a1,a2){})</code>
 
 This allows a single failure in a group of files to trigger a single error resulting in a fall back. So now:
@@ -44,6 +54,8 @@ may be written as:
 <code>require(["flbk!https://cdn.com/asset1!&!https://cdn.com/asset2!!local/asset1!&!local/asset2"],function(a1,a2){})</code>
 This could be advantageous since whichever asset fails to load first will automatically cause both assets to move to the fall back. Originally, both files would have to fail independently before each move to the next. If you're using the same CDN/package for both files then if one is down, the other will be too.
 
-Note that require-fallback needs any plugins to implement the requireJS error callback (http://requirejs.org/docs/api.html#errbacks) to detect a failed module load. If none is triggered, it will erroneously assume that there is no problem. 
+require-fallback supports the use of child plugins. So if you want to do <code>"flbk!json!cdn/to.json!!json!local/to.json"</code> have at it.
 
-Currently, I am aware that require-css does not support this; however, there is a pull request to implement this feature.
+<em>Note that require-fallback needs any plugins to implement the requireJS error callback (http://requirejs.org/docs/api.html#errbacks) to detect a failed module load. If none is triggered, it will erroneously assume that there is no problem. </em>
+
+(I am aware that require-css does not support this; however, there is a pull request to implement this feature)
