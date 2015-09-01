@@ -45,13 +45,20 @@ which will attempt to load asset from a cdn and fallback to a local resource.
 Require-fallback also supports loading multiple resources, separated by "!&!". For example, the following two commands behave identically:
 
 <code>require(["asset1","asset2"],function(a1,a2){})</code>
+
  and 
+ 
 <code>require(["flbk!asset1!&!asset2"],function(a1,a2){})</code>
 
 This allows a single failure in a group of files to trigger a single error resulting in a fall back. So now:
+
 <code>require(["flbk!https://cdn.com/asset1!!local/asset1","https://cdn.com/asset2!!local/asset2"],function(a1,a2){})</code>
+
 may be written as:
+
 <code>require(["flbk!https://cdn.com/asset1!&!https://cdn.com/asset2!!local/asset1!&!local/asset2"],function(a1,a2){})</code>
+
+
 This could be advantageous since whichever asset fails to load first will automatically cause both assets to move to the fall back. Originally, both files would have to fail independently before each move to the next. If you're using the same CDN/package for both files then if one is down, the other will be too.
 
 require-fallback supports the use of child plugins. So if you want to do <code>"flbk!json!cdn/to.json!!json!local/to.json"</code> have at it.
